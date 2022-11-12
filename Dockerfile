@@ -1,16 +1,33 @@
-FROM node:16.17.1
+FROM node:16.17.1 as base
 
+FROM base as development
 WORKDIR /app
-
 COPY package.json /app
-
-RUN npm install
-
+RUN npm install 
 COPY . . 
-
 EXPOSE 4000
-
 CMD ["npm", "run", "start-dev"]
+
+FROM base as production
+WORKDIR /app
+COPY package.json /app
+RUN npm install --only=production
+COPY . . 
+EXPOSE 4000
+CMD ["npm", "run", "start"]
+
+# Working without stages
+#FROM node:16.17.1
+#WORKDIR /app
+#COPY package.json /app
+#ARG NODE_ENV
+#RUN if ["$NODE_ENV" = "production"]; \
+#    then npm install --only=production; \
+#    else npm install; \
+#    fi 
+#COPY . . 
+#EXPOSE 4000
+#CMD ["npm", "run", "start-dev"]
 
 
 ## 1-) Create Image
@@ -33,4 +50,3 @@ CMD ["npm", "run", "start-dev"]
 
 ## 6-) run container and open bash
 # docker exec -it node-app-container bash
-

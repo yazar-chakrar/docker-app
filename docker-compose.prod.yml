@@ -1,0 +1,25 @@
+version: "2.10.2"
+
+services:
+  node-app:
+    build: 
+      context: .
+
+      #for multi-stage
+      target: production
+      
+      #we can use condition on var on one stage
+      #args:
+      #  - NODE_ENV=production
+
+    environment:
+      - NODE_ENV=production
+    
+    #overwrite cmd for one stage selon condition
+    #command: npm run start
+
+# Run when file name is default (docker-compose.yml)
+# docker-compose up -d  
+
+# Run when file name isn't default
+# docker-compose -f docker-compose.dev up -d  
