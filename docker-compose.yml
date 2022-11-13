@@ -10,6 +10,18 @@ services:
     ports:
       - "4000:4000"
 
+  mongo:
+    image: mongo
+    restart: always
+    volumes:
+      - mongo-db:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
+volumes:
+  mongo-db:
+
 # Run when file name is default (docker-compose.yml)
 # docker-compose up -d  
 
